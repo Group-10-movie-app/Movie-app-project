@@ -51,7 +51,7 @@ exports.searchMovies = async (req, res) => {
     if (genre) {
         const genreId = genreMap[genre.toLowerCase()]; // Convert genre name to genre ID
         if (!genreId) {
-            return res.status(400).json({ message: `Invalid genre name: ${genre}` }); 
+            return res.status(400).json({ message: `Invalid genre name: ${genre}` });
         }
         url = `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}`;
     }
@@ -103,5 +103,19 @@ exports.getGenres = async (req, res) => {
     } catch (error) {
         console.error('Error fetching genres:', error.message);
         res.status(500).json({ message: 'Error fetching genres' });
+    }
+};
+
+// Controller: Fetch Movie Details by ID
+exports.getMovieDetails = async (req, res) => {
+    const { id } = req.params; // Extract movie ID from request parameters
+    const url = `https://api.themoviedb.org/3/movie/${id}`; // Construct TMDB API URL for movie details
+
+    try {
+        const data = await fetchFromTMDB(url); // Fetch movie details from TMDB
+        res.json(data); // Send movie details as JSON response
+    } catch (error) {
+        console.error('Error fetching movie details:', error.message);
+        res.status(500).json({ message: 'Error fetching movie details', error: error.message });
     }
 };

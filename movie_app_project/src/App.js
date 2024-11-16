@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import SearchForm from './components/SearchForm';
 import MoviesDisplay from './components/MoviesDisplay';
+import MovieDetails from './components/MovieDetails.jsx';
 
 const App = () => {
-    const [movies, setMovies] = useState([]); // State to store the list of movies
+const [movies, setMovies] = useState([]); // State to store the list of movies
+    const [selectedMovie, setSelectedMovie] = useState(null); // State to store the selected movie
     const [loading, setLoading] = useState(false); // State to manage loading state
     const [error, setError] = useState(''); // State to store error messages
     const [genres, setGenres] = useState({}); // State to store the list of genres
@@ -50,7 +52,7 @@ const App = () => {
             }));
     
             setMovies(moviesWithGenres);
-           // se 
+            setSelectedMovie(null);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -58,13 +60,24 @@ const App = () => {
         }
     };    
 
+     // Handle movie selection
+    const selectMovie = (movie) => {
+        setSelectedMovie(movie);
+    };
+
+    // Handle going back to the search results
+    const goBackToSearch = () => {
+        setSelectedMovie(null);
+    };
 
     return (
         <div>
-            {/* Search Form */}
             <SearchForm onSearch={fetchMovies} />
-            {/* Movies Display */}
-            <MoviesDisplay movies={movies} loading={loading} error={error} />
+            {selectedMovie ? (
+                <MovieDetails movie={selectedMovie} goBack={goBackToSearch} />
+            ) : (
+                <MoviesDisplay movies={movies} loading={loading} error={error} onSelect={selectMovie} />
+            )}
         </div>
     );
 };
