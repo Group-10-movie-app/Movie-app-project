@@ -8,3 +8,34 @@
   background-color: #c2410c; /* Slightly darker orange on hover */
   color: #fff; /* Ensure text stays white */
 }
+.movie-cast {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Space between cast members */
+  margin-top: 20px; /* Space above the cast section */
+}
+
+.cast-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px; 
+  text-align: center;
+  color: #ffffff; 
+}
+
+.cast-member img {
+  width: 100%;
+  height: auto; 
+  margin-bottom: 10px;
+}
+
+.cast-member-name {
+  font-size: 0.9em; 
+  font-weight: bold;
+}
+
+.cast-member-character {
+  font-size: 0.8em; 
+  color: #cccccc;
+}
