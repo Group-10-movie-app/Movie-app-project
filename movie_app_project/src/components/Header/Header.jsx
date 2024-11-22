@@ -83,11 +83,6 @@ export default function Header() {
                                         Groups
                                     </Link>
                                 </li>
-                                <li>
-                                    <Link to="/search" className="dropdown-item">
-                                        Search Movies
-                                    </Link>
-                                </li>
                             </ul>
                         </li>
                     </ul>
