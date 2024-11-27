@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import movieRoutes from './routes/movieRoutes.js';
 import pool from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
-
+import favoritesRoutes from "./routes/favoritesRoutes.js";
 
 dotenv.config();
 
@@ -13,10 +13,14 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Movie Routes
 app.use('/api', movieRoutes);
 
-// Routes
+// User Routes
 app.use('/api/users', userRoutes);
+
+//Favorites Routes
+app.use("/api/favorites", favoritesRoutes);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

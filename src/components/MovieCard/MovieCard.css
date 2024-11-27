@@ -1,20 +1,66 @@
+.movie-card {
+  margin-bottom: 20px;
+}
+
+.card {
+  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.card-img-top {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
 .card-text {
   display: flex;
-  justify-content: space-between; /* Align rating and release date */
-  font-size: 14px; /* Adjust font size */
-  margin-bottom: 8px; /* Add spacing below */
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
 .bi-star-fill {
-  font-size: 16px; /* Star icon size */
-  color: #ffc107; /* Yellow color for the star */
+  font-size: 16px;
+  color: #ffc107;
 }
 
 .release-date {
-  font-size: 14px; /* Same font size as rating */
-  color: #aaa; /* Muted gray for release date */
-  text-align: right; /* Ensure alignment to the right */
+  font-size: 14px;
+  color: #aaa;
+  text-align: right;
 }
 
+.favorite-btn {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
 
+.favorite-btn.favorited {
+  color: #ff5733; /* Change color when favorited */
+}
 
+.favorite-btn:hover {
+  transform: scale(1.2);
+}

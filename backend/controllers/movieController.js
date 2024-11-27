@@ -50,23 +50,70 @@ export const getGenres = async (req, res) => {
 
 // Fetch movie details and cast
 export const getMovieDetails = async (req, res) => {
-    const { id } = req.params;
+    const { id: tmdb_id } = req.params;
 
     try {
+        // Fetch movie details and cast from TMDB
         const movieResponse = await axios.get(
-            `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_API_KEY}`
+            `https://api.themoviedb.org/3/movie/${tmdb_id}?api_key=${process.env.TMDB_API_KEY}`
         );
 
         const castResponse = await axios.get(
-            `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.TMDB_API_KEY}`
+            `https://api.themoviedb.org/3/movie/${tmdb_id}/credits?api_key=${process.env.TMDB_API_KEY}`
         );
 
-        res.json({
+        res.status(200).json({
             movie: movieResponse.data,
-            cast: castResponse.data.cast.slice(0, 6), // Limit to top 6 cast members
+            cast: castResponse.data.cast.slice(0, 6), // Top 6 cast members
         });
     } catch (error) {
-        console.error('Error fetching movie details or cast:', error);
-        res.status(500).send('Failed to fetch movie details or cast');
+        console.error("Error fetching movie details:", error);
+        res.status(500).send("Failed to fetch movie details");
     }
 };
+
+// In case we go for movie table :-
+
+// Fetch movie details and cast with caching
+/*export const getMovieDetails = async (req, res) => {
+  const { id: tmdb_id } = req.params;
+
+  try {
+    // Fetch movie details from TMDB
+    const movieResponse = await axios.get(
+      `https://api.themoviedb.org/3/movie/${tmdb_id}?api_key=${process.env.TMDB_API_KEY}`
+    );
+
+    // Fetch cast details from TMDB
+    const castResponse = await axios.get(
+      `https://api.themoviedb.org/3/movie/${tmdb_id}/credits?api_key=${process.env.TMDB_API_KEY}`
+    );
+
+    const movie = movieResponse.data;
+    const cast = castResponse.data.cast.slice(0, 6); // Limit to top 6 cast members
+
+    // Cache movie details (but always fetch cast data fresh)
+    const upsertQuery = `
+      INSERT INTO movies (tmdb_id, title, description, release_date, genre, rating, poster_url, last_updated)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())
+      ON CONFLICT (tmdb_id)
+      DO UPDATE SET title = $2, description = $3, release_date = $4, genre = $5, rating = $6, poster_url = $7, last_updated = NOW()
+      RETURNING *;
+    `;
+    await pool.query(upsertQuery, [
+      tmdb_id,
+      movie.title,
+      movie.overview,
+      movie.release_date,
+      movie.genres.map((g) => g.name).join(", "),
+      movie.vote_average,
+      movie.poster_path,
+    ]);
+
+    // Respond with movie and cast data
+    res.status(200).json({ movie, cast });
+  } catch (error) {
+    console.error("Error fetching movie details or cast:", error);
+    res.status(500).send("Failed to fetch movie details or cast");
+  }
+};*/
