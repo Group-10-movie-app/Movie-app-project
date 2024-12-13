@@ -90,9 +90,14 @@ You can find wireframe documentation in the `wireframe_documents` folder.
 
 #### Steps
 
-1. Clone the repository.
-2. Navigate to the directory.
+1. Clone the repository
+   
+ ![reposatory cloning](images/clone-repo.png)
+ 
+2. Navigate to the directory
+   
 3. Install dependencies for both the frontend and backend.
+   
 4. Set up the PostgreSQL database and configure two environment variable files (`.env` files) for database connection and API keys.
 
 #### Environment Variables
